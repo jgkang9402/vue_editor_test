@@ -1,19 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    123
+    <!-- <ElTiptap /> -->
+    <!-- <VueTwoEditor /> -->
+    <ElTipTap />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import ElTiptap from "./components/ElementTiptap.vue";
+// import VueTwoEditor from "./components/VueTwoEditor.vue";
+import ElTipTap from "./components/ElTipTap.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    // VueTwoEditor,
+    // ElTiptap,
+    ElTipTap,
+  },
+};
 </script>
 
 <style>
