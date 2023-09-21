@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 700px">
     <div
       @drop.prevent="handleImageDrop"
       @dragover.prevent
@@ -13,6 +13,7 @@
         @onUpdate="onUpdateEvent"
         placeholder="Write something ..."
         @onTransaction="onTransactionEvent"
+        style="height: 100%; overflow-y: auto"
       />
       <!-- @onInit="onInitEvent"
         @onDrop="onDropEvent"
@@ -20,12 +21,22 @@
       @onBlur="onBlurEvent"
       @onPaste="onPasteEvent" -->
     </div>
-    <div @drop.prevent="handleImageDrop" @dragover.prevent>
+    <div>
       <modal-wrapper
         v-if="isImgModalOpen"
         :isCloseButtonVisible="true"
         @onCloseModal="toggleModal"
-      />
+      >
+        <div
+          @drop.prevent="handleImageDrop"
+          @dragover.prevent
+          style="width: 100%; height: 100%"
+        >
+          <h1 style="height: 300px; border: 1px dotted blue">
+            사진을 올려주세요!
+          </h1>
+        </div>
+      </modal-wrapper>
     </div>
     <button @click="insertImageIntoEditor">asdasd</button>
     <button @click="getCurContents">현재컨텐츠</button>
@@ -124,45 +135,16 @@ export default {
     },
     onUpdateEvent(props) {
       console.log("🔥update", props);
-      // console.log("🔥update", props);
-      // const imgTags = props.match(/<img [^>]*src[^>]*>/g) || [];
-      // const imgTags = props.match(/<img [^>]*src="data:[^>]*>/g) || [];
-
-      // console.log(imgTags);
-      // imgTags.forEach((tag, idx) => {
-      //   // 현재 카운터 값을 증가시키고 이미지 src를 숫자로 교체합니다.
-      //   const newTag = tag.replace(/src="[^"]*"/, `src="${idx}"`);
-      //   props = props.replace(tag, newTag);
-      // });
-      // console.log(props);
-
-      // this.content = props;
-      // this.$refs.myEditor.editor.setContent(props);
     },
     insertImageIntoEditor(url) {
       console.log(url);
       const prevText = this.$refs.myEditor.editor.getHTML();
       console.log(prevText);
-      // const imgTags = props.match(/<img [^>]*src[^>]*>/g) || [];
-      // const imgTags = props.match(/<img [^>]*src="data:[^>]*>/g) || [];
-
-      // console.log(imgTags);
-      // imgTags.forEach((tag) => {
-      //   // 현재 카운터 값을 증가시키고 이미지 src를 숫자로 교체합니다.
-      //   this.imgCounter += 1;
-      //   const newTag = tag.replace(/src="[^"]*"/, `src="${this.imgCounter}"`);
-      //   props = props.replace(tag, newTag);
-      // });
-
-      // this.content = props;
-      const updatedString = prevText.replace(
-        /<img src="[^"]*"/g,
-        `<img src="${url}"`
-      );
+      const updatedString = `<img src="${url}"`;
+      let prev = this.$refs.myEditor.editor.getHTML();
+      this.content = prev + updatedString;
       console.log(updatedString);
-      this.$refs.myEditor.editor.setContent(updatedString);
-
-      // this.content += `<img src="${url}" />`;
+      this.$refs.myEditor.editor.setContent(this.content);
     },
     async handleImageDrop(event) {
       // console.log(123123123, event);
@@ -171,66 +153,42 @@ export default {
       const files = [...event.dataTransfer.files].filter((file) =>
         file.type.startsWith("image/")
       );
-      console.log(files);
 
       // Upload each file to AWS
-      const imageURLs = await Promise.all(
-        files.map((file) => this.uploadToAWS(file))
-      );
-      fetch("https://jsonplaceholder.typicode.com/posts")
+      const imageURLs = await this.uploadToAWS(files);
+      this.uploadImg = imageURLs;
+      console.log(this.$refs.myEditor.editor.getHTML());
+      console.log(imageURLs);
+      imageURLs.forEach((item) => {
+        console.log("@@@", item);
+        this.insertImageIntoEditor(item);
+      });
+
+      if (this.isImgModalOpen) this.toggleModal();
+    },
+
+    async uploadToAWS(files) {
+      console.log(files);
+      const newImgUrls = await fetch("https://cataas.com/api/cats")
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
-          console.log(this.$refs.myEditor.editor.getHTML());
-          let prev = this.$refs.myEditor.editor.getHTML();
-          const imgTags = prev.match(/<img [^>]*src="data:[^>]*>/g) || [];
-
-          console.log(imgTags);
-          imgTags.forEach((tag, idx) => {
-            // 현재 카운터 값을 증가시키고 이미지 src를 숫자로 교체합니다.
-            const newTag = tag.replace(/src="[^"]*"/, `src="${response[idx]}"`);
-            console.log(newTag);
-            prev = prev.replace(tag, newTag);
+          const awsData = files.map(() => {
+            return (
+              "https://cataas.com/cat/" +
+              response[Math.floor(Math.random() * 10)]._id
+            );
           });
-          // imgTags.forEach((tag, idx) => {
-          //   // 현재 카운터 값을 증가시키고 이미지 src를 숫자로 교체합니다.
-          //   const newTag = tag.replace(
-          //     /src="[^"]*"/,
-          //     `src="${this.uploadImg[idx]}"`
-          //   );
-          //   console.log(newTag);
-          //   prev = prev.replace(tag, newTag);
-          // });
-          this.content = prev;
-          // this.$refs.myEditor.editor.setContent(prev);
+          return awsData;
         });
-
-      console.log(imageURLs);
-      this.uploadImg = imageURLs;
-      // Insert each image into the editor
-      // imageURLs.forEach((url) => {
-      //   // Your logic to insert an image into the editor with the given URL
-      // this.insertImageIntoEditor(url);
-      // });
-    },
-
-    async uploadToAWS(file) {
-      // Use your AWS SDK or other methods to upload the file
-      // and return the resulting URL. This is a pseudo-code representation.
-      console.log(file);
-      const returnImg =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIGM3_z7nj5RXP9AvIHY_Z7AjqhXJpb2UIXQ&usqp=CAU";
-      return returnImg;
-
-      // const formData = new FormData();
-      // formData.append("image", file);
-      // const response = await fetch(YOUR_AWS_ENDPOINT, {
-      //   method: 'POST',
-      //   body: formData
-      // });
-      // const data = await response.json();
-      // return data.url;  // Assuming the response contains the image URL
+      return newImgUrls;
     },
   },
 };
 </script>
+<style scoped>
+.el-tiptap-editor__wrapper {
+  height: 100%;
+  /* height: 500px; */
+}
+</style>
