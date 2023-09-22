@@ -9,13 +9,13 @@
         ref="myEditor"
         :extensions="extensions"
         :content="content"
-        @onPaste="onPasteEvent"
         @onUpdate="onUpdateEvent"
         placeholder="Write something ..."
         @onTransaction="onTransactionEvent"
         style="height: 100%; overflow-y: auto"
       />
       <!-- @onInit="onInitEvent"
+          @onPaste="onPasteEvent"
         @onDrop="onDropEvent"
       @onFocus="onFocusEvent"
       @onBlur="onBlurEvent"
@@ -83,15 +83,15 @@ export default {
       isImgModalOpen: false,
       uploadImg: [],
       extensions: [
+        new Bold({ bubble: true }),
         new CustomImage({
           toggleModal: () => this.toggleModal(),
         }),
         new Doc(),
+        new Underline({ bubble: true }),
         new Text(),
         new Paragraph(),
         new Heading({ level: 5 }),
-        new Bold({ bubble: true }),
-        new Underline({ bubble: true }),
         new Italic({ bubble: true }),
         new Strike({ bubble: true }),
         new Link({ bubble: true }),
@@ -112,49 +112,41 @@ export default {
         new FontSize(),
         new FontType(),
       ],
-      content: ``,
-      // content: `<img src="https://i.ibb.co/nbRN3S2/undraw-upload-87y9.png" alt="" title="" height="200">`,
+      // content: ``,
+      content: `<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIGM3_z7nj5RXP9AvIHY_Z7AjqhXJpb2UIXQ&usqp=CAU" alt="" title="" height="200">`,
     };
   },
   methods: {
     getCurContents() {
       console.log(this.$refs.myEditor.editor.getHTML());
-      // this.toggleModal();
     },
     toggleModal() {
-      console.log("@@@@@@");
       this.isImgModalOpen = !this.isImgModalOpen;
     },
-    onPasteEvent(editor) {
-      console.log("🔥paste", editor);
-      console.log(this.$refs.myEditor.editor.getHTML());
-    },
     onTransactionEvent(editor) {
-      console.log("🔥Transaction", editor);
-      console.log(this.$refs.myEditor.editor.getHTML());
+      // console.log("🔥Transaction", editor);
+      // console.log(this.$refs.myEditor.editor.getHTML());
+      editor;
     },
     onUpdateEvent(props) {
-      console.log("🔥update", props);
+      console.log("🔥update");
+      props;
+      // console.log("🔥update", props);
     },
     insertImageIntoEditor(url) {
       console.log(url);
-      const prevText = this.$refs.myEditor.editor.getHTML();
-      console.log(prevText);
       const updatedString = `<img src="${url}"`;
-      let prev = this.$refs.myEditor.editor.getHTML();
-      this.content = prev + updatedString;
-      console.log(updatedString);
+      const prevTxt = this.$refs.myEditor.editor.getHTML();
+      this.content = prevTxt + updatedString;
       this.$refs.myEditor.editor.setContent(this.content);
     },
     async handleImageDrop(event) {
-      // console.log(123123123, event);
-      event.preventDefault();
-      event.stopPropagation();
+      console.log(123123123, event);
+      // event.preventDefault();
+      // event.stopPropagation();
       const files = [...event.dataTransfer.files].filter((file) =>
         file.type.startsWith("image/")
       );
-
-      // Upload each file to AWS
       const imageURLs = await this.uploadToAWS(files);
       this.uploadImg = imageURLs;
       console.log(this.$refs.myEditor.editor.getHTML());
@@ -163,25 +155,21 @@ export default {
         console.log("@@@", item);
         this.insertImageIntoEditor(item);
       });
-
+      this.uploadImg = [];
       if (this.isImgModalOpen) this.toggleModal();
     },
 
     async uploadToAWS(files) {
       console.log(files);
-      const newImgUrls = await fetch("https://cataas.com/api/cats")
+      return await fetch("https://cataas.com/api/cats")
         .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          const awsData = files.map(() => {
-            return (
+        .then((response) =>
+          files.map(
+            () =>
               "https://cataas.com/cat/" +
               response[Math.floor(Math.random() * 10)]._id
-            );
-          });
-          return awsData;
-        });
-      return newImgUrls;
+          )
+        );
     },
   },
 };

@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    123
     <!-- <ElTiptap /> -->
     <!-- <VueTwoEditor /> -->
-    <ElTipTap />
+    <div style="width: 80%; margin: 0 auto">
+      <ElTipTap />
+    </div>
   </div>
 </template>
 
@@ -29,6 +30,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
