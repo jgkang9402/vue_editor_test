@@ -3,6 +3,9 @@ const webpack = require("webpack");
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  devServer: {
+    port: 3000,
+  },
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({

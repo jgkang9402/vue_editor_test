@@ -96,7 +96,7 @@ export default {
   margin: auto;
   position: relative;
   width: 776px; /* 기본값 */
-  min-height: 168px;
+  min-height: 300px;
   padding: 6px;
   background: white;
   border: 1px solid rgba(230, 230, 230, 1);
