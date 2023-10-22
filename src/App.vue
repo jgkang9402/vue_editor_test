@@ -5,6 +5,9 @@
     <div style="width: 80%; margin: 0 auto">
       <ElTipTap />
     </div>
+    <div style="border: 1px solid red; margin: 0 auto">
+      <TestReact :test="test" />
+    </div>
   </div>
 </template>
 
@@ -12,6 +15,7 @@
 // import ElTiptap from "./components/ElementTiptap.vue";
 // import VueTwoEditor from "./components/VueTwoEditor.vue";
 import ElTipTap from "./components/ElTipTap.vue";
+import TestReact from "./components/TestReact";
 
 export default {
   name: "App",
@@ -19,6 +23,12 @@ export default {
     // VueTwoEditor,
     // ElTiptap,
     ElTipTap,
+    TestReact,
+  },
+  data() {
+    return {
+      test: "123",
+    };
   },
 };
 </script>

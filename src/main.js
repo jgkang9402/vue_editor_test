@@ -20,6 +20,8 @@ import {
   Footer,
   Button,
 } from "element-ui";
+import { VuePlugin } from "vuera";
+
 Vue.use(Container);
 Vue.use(Header);
 Vue.use(Main);
@@ -30,6 +32,7 @@ Vue.use(ElementUI);
 Vue.use(ElementTiptapPlugin, {
   lang: "ko",
 });
+Vue.use(VuePlugin);
 
 Vue.config.productionTip = false;
 

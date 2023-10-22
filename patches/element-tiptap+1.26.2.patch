@@ -1,0 +1,82 @@
+diff --git a/node_modules/element-tiptap/src/i18n/ko/index.ts b/node_modules/element-tiptap/src/i18n/ko/index.ts
+index c039450..0565766 100644
+--- a/node_modules/element-tiptap/src/i18n/ko/index.ts
++++ b/node_modules/element-tiptap/src/i18n/ko/index.ts
+@@ -2,13 +2,13 @@ export default {
+   editor: {
+     extensions: {
+       Bold: {
+-        tooltip: '굵게',
++        tooltip: '굵다',
+       },
+       Underline: {
+-        tooltip: '밑줄',
++        tooltip: '밑롤',
+       },
+       Italic: {
+-        tooltip: '기울임',
++        tooltip: '기울여',
+       },
+       Strike: {
+         tooltip: '취소선',
+diff --git a/node_modules/element-tiptap/src/styles/editor.scss b/node_modules/element-tiptap/src/styles/editor.scss
+index ab16d81..fd132e0 100644
+--- a/node_modules/element-tiptap/src/styles/editor.scss
++++ b/node_modules/element-tiptap/src/styles/editor.scss
+@@ -4,7 +4,7 @@
+   $root: &;
+ 
+   box-sizing: border-box;
+-  border-radius: 8px;
++  border-radius: 60px;
+   display: flex;
+   flex-direction: column;
+   max-height: 100%;
+diff --git a/node_modules/element-tiptap/src/utils/color.ts b/node_modules/element-tiptap/src/utils/color.ts
+index c453eca..eeec7d0 100644
+--- a/node_modules/element-tiptap/src/utils/color.ts
++++ b/node_modules/element-tiptap/src/utils/color.ts
+@@ -13,14 +13,6 @@ export const COLOR_SET: string[] = [
+   '#03a9f4',
+   '#00bcd4',
+   '#009688',
+-  '#4caf50',
+-  '#8bc34a',
+-  '#cddc39',
+-  '#ffeb3b',
+-  '#ffc107',
+-  '#ff9800',
+-  '#ff5722',
+-  '#000000',
+ ];
+ 
+ export function isHexColor (color: string): boolean {
+diff --git a/node_modules/element-tiptap/src/utils/font_size.ts b/node_modules/element-tiptap/src/utils/font_size.ts
+index 7b49f89..592e6ef 100644
+--- a/node_modules/element-tiptap/src/utils/font_size.ts
++++ b/node_modules/element-tiptap/src/utils/font_size.ts
+@@ -5,7 +5,7 @@ import { Mark as ProsemirrorMark, MarkType } from 'prosemirror-model';
+ import applyMark from './apply_mark';
+ 
+ export const DEFAULT_FONT_SIZES = [
+-  '8',
++  '2',
+   '10',
+   '12',
+   '14',
+diff --git a/node_modules/element-tiptap/src/utils/font_type.ts b/node_modules/element-tiptap/src/utils/font_type.ts
+index 958e0c4..b940cdb 100644
+--- a/node_modules/element-tiptap/src/utils/font_type.ts
++++ b/node_modules/element-tiptap/src/utils/font_type.ts
+@@ -11,11 +11,6 @@ const DEFAULT_FONT_TYPE_NAMES = [
+   'Impact',
+   'Tahoma',
+   'Times New Roman',
+-  'Verdana',
+-  'Courier New',
+-  'Lucida Console',
+-  'Monaco',
+-  'monospace',
+ ];
+ 
+ export const DEFAULT_FONT_TYPE_MAP = DEFAULT_FONT_TYPE_NAMES.reduce((obj: { [key: string]: string }, type: string) => {
