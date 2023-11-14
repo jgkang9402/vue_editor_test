@@ -241,7 +241,7 @@ export default {
       });
     },
     onUpdateEvent(html, editorObj) {
-      console.log("🔥update html", html);
+      // console.log("🔥update html", html);
       console.log("🔥update editorObj", editorObj);
 
       // 이미지 태그의 src가 data URL을 포함하는지 확인
@@ -253,7 +253,9 @@ export default {
           '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIGM3_z7nj5RXP9AvIHY_Z7AjqhXJpb2UIXQ&usqp=CAU"'
         );
         console.log(newHtml);
-        this.content = newHtml;
+        this.content =
+          newHtml +
+          '<p><span style="color: #6a9955;"><span style="font-size: 12px"><span style="font-family: Menlo, Monaco, Courier New, monospace">@onUpdate="onUpdateEvent"</span></span></span></p>';
         this.$refs.myEditor.editor.setContent(this.content);
       }
     },
@@ -318,7 +320,7 @@ export default {
 
       // // 이벤트를 중지하여 기본 붙여넣기 동작을 방지합니다.
       // event.preventDefault();
-      console.log("on");
+      console.log("🔥paste");
       const regex = /<[^>]*>/g;
 
       // HTML 태그를 제거하고 텍스트만 추출
