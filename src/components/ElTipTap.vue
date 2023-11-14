@@ -57,7 +57,7 @@
           style="width: 100%; height: 100%"
         >
           <div v-if="originalImgFiles.length === 0">
-            <h1>Img Upload</h1>
+            <h1>Img Uploadㅇㅇ</h1>
             <input
               @change="changeFileInput"
               type="file"
@@ -222,17 +222,42 @@ export default {
         editorMenuBar.style.height = "56px";
       }
     },
-    onTransactionEvent(editor) {
-      // console.log("🔥Transaction", editor);
-      // console.log(this.$refs.myEditor.editor.getHTML());
-      editor;
+    onTransactionEvent({ editor }) {
+      // 마우스 포인터클릭만해도 동작하고 수정,삭제등 모든이벤트에 발생함, 포인터 커서 어디에있는지 알아보던가 해도될듯
+      console.log("🔥Transaction", editor);
+      // if (!editor.view.hasFocus()) {
+      //   editor.view.focus();
+      // }
+      const editorElement = this.$refs.myEditor.$el;
+      this.$refs.myEditor.$el.addEventListener("click", (clickEvent) => {
+        // 클릭한 요소가 에디터 내부인지 확인합니다.
+        if (editorElement.contains(clickEvent.target)) {
+          // 에디터의 포커스 상태를 확인합니다.
+          if (!this.$refs.myEditor.editor.view.focused) {
+            // 에디터에 포커스를 줍니다.
+            this.$refs.myEditor.editor.view.focus();
+          }
+        }
+      });
     },
-    onUpdateEvent(props) {
-      console.log("🔥update");
-      console.log(FontSize);
-      props;
-      // console.log("🔥update", props);
+    onUpdateEvent(html, editorObj) {
+      console.log("🔥update html", html);
+      console.log("🔥update editorObj", editorObj);
+
+      // 이미지 태그의 src가 data URL을 포함하는지 확인
+      const hasDataUrl = html.includes('<img src="data');
+
+      if (hasDataUrl) {
+        const newHtml = html.replace(
+          /<img src="data[^"]*"/g,
+          '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIGM3_z7nj5RXP9AvIHY_Z7AjqhXJpb2UIXQ&usqp=CAU"'
+        );
+        console.log(newHtml);
+        this.content = newHtml;
+        this.$refs.myEditor.editor.setContent(this.content);
+      }
     },
+
     onInitEvent({ editor }) {
       console.log(editor);
       editor.focus();

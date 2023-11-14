@@ -2,13 +2,16 @@
   <div id="app">
     <!-- <ElTiptap /> -->
     <!-- <VueTwoEditor /> -->
-    <div style="width: 80%; margin: 0 auto; margin-bottom: 5rem">
-      <ElTipTap />
-    </div>
     <!-- <div style="border: 1px solid red; margin: 0 auto">
       <TestReact :test="test" />
     </div> -->
+    <!-- <div style="width: 80%; height: 500px; margin: 0 auto; margin-bottom: 2rem">
+      <TiptapEditor />
+    </div> -->
     <div>
+      <div style="width: 80%; margin: 0 auto; margin-bottom: 5rem">
+        <ElTipTap />
+      </div>
       <UploadFile />
     </div>
   </div>
@@ -18,6 +21,7 @@
 // import ElTiptap from "./components/ElementTiptap.vue";
 // import VueTwoEditor from "./components/VueTwoEditor.vue";
 import ElTipTap from "./components/ElTipTap.vue";
+// import TiptapEditor from "./components/TiptapEditor.vue";
 // import TestReact from "./components/TestReact";
 import UploadFile from "./components/UploadFile.vue";
 
@@ -29,6 +33,7 @@ export default {
     ElTipTap,
     // TestReact,
     UploadFile,
+    // TiptapEditor,
   },
   data() {
     return {
