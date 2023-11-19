@@ -9,17 +9,21 @@
 import Vue from "vue";
 import App from "./App.vue";
 
-import ElementUI from "element-ui";
+import Vue2Editor from "vue2-editor";
+
 import ElementTiptapPlugin from "element-tiptap";
 import "element-tiptap/lib/index.css";
-import {
+import ElementUI, {
+  Button,
   // layout
   Container,
+  Footer,
   Header,
   Main,
-  Footer,
-  Button,
 } from "element-ui";
+
+// Vue.use(vuedraggable);
+Vue.use(Vue2Editor);
 Vue.use(Container);
 Vue.use(Header);
 Vue.use(Main);
